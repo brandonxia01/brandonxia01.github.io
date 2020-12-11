@@ -14,13 +14,13 @@
         very nice dogs that like me,<br />
         even when I frown.
       </p>
-      <img id="doggo" style="height: 300px" src="" onerror="dosomething()" />
+      <img id="doggo" style="height: 300px" src="" onerror="dosomething(false)" />
 
       <br />
       <br />
       <br />
 
-      <button style="width: 100px; height: 50px; color: purple; background-color: lightpink" onclick="dosomething()">
+      <button style="width: 100px; height: 50px; color: purple; background-color: lightpink" onclick="dosomething(true)">
         Change Doggo
       </button>
 
@@ -36,7 +36,7 @@
 
 
   <script>
-    function dosomething() {
+    function dosomething(allowMeme) {
       var doggos = [
         "https://cdn.orvis.com/images/DBS_Beagle_1280.jpg", // index 0
         "https://i.ytimg.com/vi/MPV2METPeJU/maxresdefault.jpg", // index 1
@@ -56,13 +56,16 @@
       while (value == doc.src) {
         randomNumber = Math.floor(Math.random() * length); // random number between 0 and length-1
         value = doggos[randomNumber];
-        console.log("same");
       }
 
       var music = document.getElementById("llevan");
-      console.log("music = " + music);
       if (value == "https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg") {
-        music.play();
+        if (allowMeme) {
+          music.play();
+        } else {
+          dosomething(false);
+          return;
+        }
       } else {
         music.pause()
       }
