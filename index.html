@@ -9,13 +9,12 @@
 
       <h3>Created by Brandon Xia.</h3>
 
-
       <p>
         This site is for dogs, <br />
         very nice dogs that like me,<br />
         even when I frown.
       </p>
-      <img id="doggo" style="height: 300px" src="" onerror="dosomething()"/>
+      <img id="doggo" style="height: 300px" src="" onerror="dosomething()" />
 
       <br />
       <br />
@@ -24,11 +23,17 @@
       <button style="width: 100px; height: 50px; color: purple; background-color: lightpink" onclick="dosomething()">
         Change Doggo
       </button>
-      
-      <embed src="https://www.youtube.com/watch?v=1wnE4vF9CQ4&ab_channel=Xyliex">
+
+
+      <audio id="llevan" type="audio/mp3" style="width:0px; height:0px; visibility:hidden" src="leek.mp3">
+
+
 
     </div>
   </body>
+
+
+
 
   <script>
     function dosomething() {
@@ -52,6 +57,14 @@
         randomNumber = Math.floor(Math.random() * length); // random number between 0 and length-1
         value = doggos[randomNumber];
         console.log("same");
+      }
+
+      var music = document.getElementById("llevan");
+      console.log("music = " + music);
+      if (value == "https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg") {
+        music.play();
+      } else {
+        music.pause()
       }
 
       doc.src = value;
