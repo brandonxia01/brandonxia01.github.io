@@ -1,65 +1,68 @@
 
 
+
 <html>
-    <body>
+    <body style="text-align:center; background-color:rgb(221, 224, 199)">
 
 
-        <h1>
-            Brandon's Second Website!
-        </h1>
+        <h1 id="text1"></h1>
 
-        <p>
-            this one is for longer pieces of text <br> 
-            this text is better than the last. <br>
-            but you would not know from just the context. <br>
-            this is a story from the past. <br>
-        </p>
-
-        <button onclick="doSomething()">
-            Click Me!
-        </button>
-        <br> 
-        <br>
-
-        <h2>Zombies Killed:</h2>
-        <h3 id="zombies_killed">0</h3>
-
-        <img id="zombie" src="https://3dwarehouse.sketchup.com/warehouse/v1.0/publiccontent/ee271319-8b7d-453d-9815-5b6302718175">
-        
         <br>
         <br>
 
-        
+        <h2>Type that as fast as you can!</h2>
 
-        <div style="display:flex">
-
-
-            <img id="zombie" style="width:1000px" src="https://3dwarehouse.sketchup.com/warehouse/v1.0/publiccontent/ee271319-8b7d-453d-9815-5b6302718175">
-
-        </div>
+        <h1 id="header"></h1>
 
 
+        <h1 id="victory" style="visibility: hidden;">You Win!</h1>
+
+        <h2 id="timer"></h2>
 
     </body>
-
-
-<script>
-    function doSomething() {
-        var doc = document.getElementById("zombie");
-        doc.width = doc.width * .6;
-        console.log("width = " + doc.width)
-        if (doc.width < 20) {
-            doc.width = 1000;
-            var kill = document.getElementById("zombies_killed");
-            var t = kill.textContent
-            var integer = parseInt(t) + 1;
-            kill.textContent = integer;
-            
-        }
-        console.log("did something");
-
-    }
-</script>
-
 </html>
 
+<script>
+
+    document.body.onload = async function(e) {
+        document.getElementById("timer").textContent = Date.now();
+
+        var text = document.getElementById("text1")
+
+        fetch("http://random-word-api.herokuapp.com/word?number=10&swear=0")
+            .then(response => response.json())
+            .then(data => text.textContent = data.join(" "))
+            
+    }
+
+    document.body.onkeydown = async function(e) {
+        console.log(e);
+
+        var header = document.getElementById("header");
+
+        if (e.key == "Backspace") {
+            header.textContent = header.textContent.substring(0, header.textContent.length - 1);
+        } else if (e.key == "Shift" || e.key == "CapsLock" || e.key == "Meta" || e.key == "Tab" || e.key == "Enter") {
+            // do nothing.
+        } else {
+            header.textContent += e.key;
+        }
+
+        var desired = document.getElementById("text1");
+
+        if (header.textContent != desired.textContent.substring(0, header.textContent.length)) {
+            header.style.color = "red";
+        } else {
+            header.style.color = "black";
+        }
+
+        if (desired.textContent == header.textContent && document.getElementById("victory").style.visibility == "hidden") {
+            var winner = document.getElementById("victory")
+            winner.textContent = "You took " +(Date.now() - parseInt(document.getElementById("timer").textContent))/1000 + " seconds!"
+            
+            winner.style.visibility = "visible"
+        }
+
+    }
+
+</script>
