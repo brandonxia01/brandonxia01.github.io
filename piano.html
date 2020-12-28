@@ -1,0 +1,92 @@
+
+
+<html>
+    <link rel="stylesheet" href="styles.css">
+
+    <body style="background-color: skyblue;">
+
+        <div style="display:flex; justify-content: center; text-align:center">
+        
+            <div id= "a4" onclick="playNote('a4')" class="whitekey">Q<p style='margin-top: 250px;'>A</p></div>
+            <div id= "a-4" onclick="playNote('a-4')" class="blackkey">2<p style='margin-top: 150px;'>Bb</p></div>
+            <div id= "b4" onclick="playNote('b4')" class="whitekey">W<p style='margin-top: 250px;'>B</p></div>
+            <div id= "c4" onclick="playNote('c4')" class="whitekey">E<p style='margin-top: 250px;'>C</p></div>
+            <div id= "c-4" onclick="playNote('c-4')" class="blackkey">4<p style='margin-top: 150px;'>Db</p></div>
+            <div id= "d4" onclick="playNote('d4')" class="whitekey">R<p style='margin-top: 250px;'>D</p></div>
+            <div id= "d-4" onclick="playNote('d-4')" class="blackkey">5<p style='margin-top: 150px;'>Eb</p></div>
+            <div id= "e4" onclick="playNote('e4')" class="whitekey">T<p style='margin-top: 250px;'>E</p></div>
+            <div id= "f4" onclick="playNote('f4')" class="whitekey">Y<p style='margin-top: 250px;'>F</p></div>
+            <div id= "f-4" onclick="playNote('f-4')" class="blackkey">7<p style='margin-top: 150px;'>Gb</p></div>
+            <div id= "g4" onclick="playNote('g4')" class="whitekey">U<p style='margin-top: 250px;'>G</p></div>
+            <div id= "g-4" onclick="playNote('g-4')" class="blackkey">8<p style='margin-top: 150px;'>Ab</p></div>
+            <div id= "a5" onclick="playNote('a5')" class="whitekey">I<p style='margin-top: 250px;'>A</p></div>
+            <div id= "a-5" onclick="playNote('a-5')" class="blackkey">9<p style='margin-top: 150px;'>Bb</p></div>
+            <div id= "b5" onclick="playNote('b5')" class="whitekey">O<p style='margin-top: 250px;'>B</p></div>
+            <div id= "c5" onclick="playNote('c5')" class="whitekey">P<p style='margin-top: 250px;'>C</p></div>
+            <div id= "c-5" onclick="playNote('c-5')" class="blackkey">-<p style='margin-top: 150px;'>Db</p></div>
+            <div id= "d5" onclick="playNote('d5')" class="whitekey">[<p style='margin-top: 250px;'>D</p></div>
+            <div id= "d-5" onclick="playNote('d-5')" class="blackkey">+<p style='margin-top: 150px;'>Eb</p></div>
+            <div id= "e5" onclick="playNote('e5')" class="whitekey">]<p style='margin-top: 250px;'>E</p></div>
+            <div id= "f5" onclick="playNote('f5')" class="whitekey">\<p style='margin-top: 250px;'>F</p></div>
+
+        </div>
+
+    </body>
+    <audio id="musicplayer"></audio>
+
+</html>
+
+
+<script>
+
+    document.body.onkeydown = async function(e) {
+        switch (e.key) {
+            case 'q': case 'Q': playNote('a4'); break;
+            case 'w': case 'W': playNote('b4'); break;
+            case 'e': case 'E': playNote('c4'); break;
+            case 'r': case 'R': playNote('d4'); break;
+            case 't': case 'T': playNote('e4'); break;
+            case 'y': case 'Y': playNote('f4'); break;
+            case 'u': case 'U': playNote('g4'); break;
+            case 'i': case 'I': playNote('a5'); break;
+            case 'o': case 'O': playNote('b5'); break;
+            case 'p': case 'P': playNote('c5'); break;
+            case '[': playNote('d5'); break;
+            case ']': playNote('e5'); break;
+            case '\\': playNote('f5'); break;
+            case '2': playNote('a-4'); break;
+            case '4': playNote('c-4'); break;
+            case '5': playNote('d-4'); break;
+            case '7': playNote('f-4'); break;
+            case '8': playNote('g-4'); break;
+            case '9': playNote('a-5'); break;
+            case '-': playNote('c-5'); break;
+            case '=': playNote('d-5'); break;
+            case '-': playNote('c-5'); break;
+
+            default: break;
+        }
+    }
+
+    async function playNote(note) {
+        var link = "https://raw.githubusercontent.com/brandonxia01/CodingClub/master/websites/piano/notes/" + note + ".mp3"
+        
+        var key = document.getElementById(note);
+        
+        key.style.backgroundColor= "green" ;
+
+        var audio = document.createElement("AUDIO");
+        audio.src = link;
+        audio.play()
+        audio.remove()
+        await new Promise(r => setTimeout(r, 400)).then(() => {
+            if (key.className == "whitekey") {
+                key.style.backgroundColor = "transparent";
+            } else {
+                key.style.backgroundColor = "black";
+            }
+        })
+    }
+
+
+</script>
