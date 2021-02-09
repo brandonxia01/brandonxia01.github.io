@@ -1,0 +1,83 @@
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<html>
+  <body style = "text-align: center; background-color: lightblue;">
+
+    <br>
+    <br>
+
+    <button onclick="getSong('hillsong')">
+        Click me to test
+    </button>
+
+    <br>
+    <br>
+
+    <audio controls id="song"></audio>
+
+
+    <br>
+    <br>
+
+
+    <input id="input">Guess the song.</input>
+
+
+    <h2 id="victory" style="visibility: hidden;">You Are Correct!</h2>
+    <h3 id="incorrect" style="visibility:hidden;">You are wrong</h3>
+    <button onclick="guessSong()">Click to submit</button>
+
+  </body>
+</html>
+
+<script>
+
+  var songName = "";
+
+
+  function getSong(band) {
+    var url = "https://itunes.apple.com/search?term=" + band;
+
+    $.ajax({
+      url: url,
+      jsonp: "callback",
+      dataType: "jsonp",
+    }).done(function (data) {
+      console.log(data);
+
+      var audio = document.getElementById("song");
+
+      var songNumber = Math.floor(Math.random() * data.results.length); // gives us a number between 0 and 49
+
+      audio.src = data.results[songNumber].previewUrl;
+      audio.volume = .1;
+      audio.play();
+
+      songName = data.results[songNumber].trackName;
+      console.log(songName);
+
+    });
+  }
+
+  function guessSong() {
+    var input = document.getElementById("input");
+    console.log(input.value)
+
+    var victory = document.getElementById("victory");
+    var incorrect = document.getElementById("incorrect");
+
+    if (input.value.toLowerCase() == songName.toLowerCase()) {
+      victory.style.visibility = "visible";
+      incorrect.style.visibility = "hidden";
+    } else {
+      victory.style.visibility = "hidden";
+      incorrect.style.visibility = "visible";
+    }
+
+  }
+
+
+
+
+
+</script>
