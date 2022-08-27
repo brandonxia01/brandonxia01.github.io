@@ -1,83 +1,110 @@
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 
 <html>
-  <body style = "text-align: center; background-color: lightblue;">
+    <style>
+        .whitekey{
+            width:60px; 
+            height:300px;
+            border:3px solid black; 
+            margin:2px
+        }
 
-    <br>
-    <br>
+        .blackkey{
+            width:30px; 
+            height:200px; 
+            background-color:black; 
+            color:white; 
+            margin: -18px; 
+            margin-top: 2px;
+            z-index: 1;
+        }
+    </style>
+   
+    <body style="background-color: skyblue;">
 
-    <button onclick="getSong('hillsong')">
-        Click me to test
-    </button>
+        <div style="display:flex; justify-content: center; text-align:center">
+        
+            <div id= "a4" onclick="playNote('a4')" class="whitekey">A<p style='margin-top: 250px;'>Q</p></div>
+            <div id= "a-4" onclick="playNote('a-4')" class="blackkey">Bb<p style='margin-top: 150px;'>2</p></div>
+            <div id= "b4" onclick="playNote('b4')" class="whitekey">B<p style='margin-top: 250px;'>W</p></div>
+            <div id= "c4" onclick="playNote('c4')" class="whitekey">C<p style='margin-top: 250px;'>E</p></div>
+            <div id= "c-4" onclick="playNote('c-4')" class="blackkey">Db<p style='margin-top: 150px;'>4</p></div>
+            <div id= "d4" onclick="playNote('d4')" class="whitekey">D<p style='margin-top: 250px;'>R</p></div>
+            <div id= "d-4" onclick="playNote('d-4')" class="blackkey">Eb<p style='margin-top: 150px;'>5</p></div>
+            <div id= "e4" onclick="playNote('e4')" class="whitekey">E<p style='margin-top: 250px;'>T</p></div>
+            <div id= "f4" onclick="playNote('f4')" class="whitekey">F<p style='margin-top: 250px;'>Y</p></div>
+            <div id= "f-4" onclick="playNote('f-4')" class="blackkey">Gb<p style='margin-top: 150px;'>7</p></div>
+            <div id= "g4" onclick="playNote('g4')" class="whitekey">G<p style='margin-top: 250px;'>U</p></div>
+            <div id= "g-4" onclick="playNote('g-4')" class="blackkey">Ab<p style='margin-top: 150px;'>8</p></div>
+            <div id= "a5" onclick="playNote('a5')" class="whitekey">A<p style='margin-top: 250px;'>I</p></div>
+            <div id= "a-5" onclick="playNote('a-5')" class="blackkey">Bb<p style='margin-top: 150px;'>9</p></div>
+            <div id= "b5" onclick="playNote('b5')" class="whitekey">B<p style='margin-top: 250px;'>O</p></div>
+            <div id= "c5" onclick="playNote('c5')" class="whitekey">C<p style='margin-top: 250px;'>P</p></div>
+            <div id= "c-5" onclick="playNote('c-5')" class="blackkey">Db<p style='margin-top: 150px;'>-</p></div>
+            <div id= "d5" onclick="playNote('d5')" class="whitekey">D<p style='margin-top: 250px;'>[</p></div>
+            <div id= "d-5" onclick="playNote('d-5')" class="blackkey">Eb<p style='margin-top: 150px;'>=</p></div>
+            <div id= "e5" onclick="playNote('e5')" class="whitekey">E<p style='margin-top: 250px;'>]</p></div>
+            <div id= "f5" onclick="playNote('f5')" class="whitekey">F<p style='margin-top: 250px;'>\</p></div>
 
-    <br>
-    <br>
+        </div>
 
-    <audio controls id="song"></audio>
+    </body>
+    <audio id="musicplayer"></audio>
 
-
-    <br>
-    <br>
-
-
-    <input id="input">Guess the song.</input>
-
-
-    <h2 id="victory" style="visibility: hidden;">You Are Correct!</h2>
-    <h3 id="incorrect" style="visibility:hidden;">You are wrong</h3>
-    <button onclick="guessSong()">Click to submit</button>
-
-  </body>
 </html>
+
 
 <script>
 
-  var songName = "";
+    document.body.onkeydown = async function(e) {
+        switch (e.key) {
+            case 'q': case 'Q': playNote('a4'); break;
+            case 'w': case 'W': playNote('b4'); break;
+            case 'e': case 'E': playNote('c4'); break;
+            case 'r': case 'R': playNote('d4'); break;
+            case 't': case 'T': playNote('e4'); break;
+            case 'y': case 'Y': playNote('f4'); break;
+            case 'u': case 'U': playNote('g4'); break;
+            case 'i': case 'I': playNote('a5'); break;
+            case 'o': case 'O': playNote('b5'); break;
+            case 'p': case 'P': playNote('c5'); break;
+            case '[': playNote('d5'); break;
+            case ']': playNote('e5'); break;
+            case '\\': playNote('f5'); break;
+            case '2': playNote('a-4'); break;
+            case '4': playNote('c-4'); break;
+            case '5': playNote('d-4'); break;
+            case '7': playNote('f-4'); break;
+            case '8': playNote('g-4'); break;
+            case '9': playNote('a-5'); break;
+            case '-': playNote('c-5'); break;
+            case '=': playNote('d-5'); break;
+            case '-': playNote('c-5'); break;
 
-
-  function getSong(band) {
-    var url = "https://itunes.apple.com/search?term=" + band;
-
-    $.ajax({
-      url: url,
-      jsonp: "callback",
-      dataType: "jsonp",
-    }).done(function (data) {
-      console.log(data);
-
-      var audio = document.getElementById("song");
-
-      var songNumber = Math.floor(Math.random() * data.results.length); // gives us a number between 0 and 49
-
-      audio.src = data.results[songNumber].previewUrl;
-      audio.volume = .1;
-      audio.play();
-
-      songName = data.results[songNumber].trackName;
-      console.log(songName);
-
-    });
-  }
-
-  function guessSong() {
-    var input = document.getElementById("input");
-    console.log(input.value)
-
-    var victory = document.getElementById("victory");
-    var incorrect = document.getElementById("incorrect");
-
-    if (input.value.toLowerCase() == songName.toLowerCase()) {
-      victory.style.visibility = "visible";
-      incorrect.style.visibility = "hidden";
-    } else {
-      victory.style.visibility = "hidden";
-      incorrect.style.visibility = "visible";
+            default: break;
+        }
     }
 
-  }
+    function playNote(note) {
+        var link = "https://raw.githubusercontent.com/brandonxia01/CodingClub/master/websites/piano/notes/" + note + ".mp3"
+        
+        var key = document.getElementById(note);
+        
+        key.style.backgroundColor= "green" ;
 
+        var audio = document.createElement("AUDIO");
+        audio.src = link;
+        audio.play()
+        audio.remove()
+        new Promise(r => setTimeout(r, 400)).then(() => {
+            if (key.className == "whitekey") {
+                key.style.backgroundColor = "transparent";
+            } else {
+                key.style.backgroundColor = "black";
+            }
+        })
 
-
+    }
 
 
 </script>
